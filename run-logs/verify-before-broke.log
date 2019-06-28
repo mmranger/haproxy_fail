@@ -1,0 +1,25 @@
+-----> Starting Kitchen (v1.23.2)
+-----> Setting up <config-1-centos-7>...
+       Finished setting up <config-1-centos-7> (0m0.00s).
+-----> Verifying <config-1-centos-7>...
+       Loaded tests from {:path=>".media.mmcqueen.at-at.dev.Chef.others.haproxy_fail.test.integration.config_1"} 
+
+Profile: tests from {:path=>"/media/mmcqueen/at-at/dev/Chef/others/haproxy_fail/test/integration/config_1"} (tests from {:path=>".media.mmcqueen.at-at.dev.Chef.others.haproxy_fail.test.integration.config_1"})
+Version: (not specified)
+Target:  ssh://vagrant@127.0.0.1:2200
+
+  System Package haproxy
+[38;5;41m     ✔  should be installed[0m
+  Directory /etc/haproxy
+[38;5;41m     ✔  should exist[0m
+  File /etc/haproxy/haproxy.cfg
+[38;5;41m     ✔  should exist[0m
+[38;5;41m     ✔  should be owned by "haproxy"[0m
+[38;5;41m     ✔  should be grouped into "haproxy"[0m
+[38;5;41m     ✔  content should match /^global\n  user haproxy\n  group haproxy\n  log \/dev\/log local0\n  log-tag WARDEN\n  chroot \/var\/lib\/haproxy\n  daemon\n  quiet\n  stats socket \/var\/lib\/haproxy\/stats level admin\n  maxconn 256\n  pidfile \/var\/run\/haproxy.pid\n  tune.bufsize 262144\n\n\ndefaults\n  timeout connect 5000ms\n  timeout client 5000ms\n  timeout server 5000ms\n  log global\n  mode http\n  balance roundrobin\n  option httplog\n  option dontlognull\n  option redispatch\n  option tcplog\n  retries 5\n  stats uri \/haproxy-status\n\n\nfrontend http-in\n  default_backend servers\n  bind \*:80\n\nfrontend tcp-in\n  mode tcp\n  default_backend tcp-servers\n  bind \*:3307\n\nfrontend single-reqrep-reqirep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqrep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqrep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqirep\n  default_backend servers\n  bind \*:80\n  reqirep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multiport\n  default_backend servers\n  bind \*:8080\n  bind 0.0.0.0:8081\n  bind 0.0.0.0:8180\n\n\nbackend servers\n  server server1 127.0.0.1:8000 maxconn 32\n\nbackend tcp-servers\n  mode tcp\n  server server2 127.0.0.1:3306 maxconn 32$/[0m
+  Service haproxy
+[38;5;41m     ✔  should be running[0m
+
+Test Summary: [38;5;41m7 successful[0m, 0 failures, 0 skipped
+       Finished verifying <config-1-centos-7> (0m2.60s).
+-----> Kitchen is finished. (0m5.17s)

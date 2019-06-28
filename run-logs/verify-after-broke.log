@@ -1,0 +1,53 @@
+-----> Starting Kitchen (v1.23.2)
+-----> Verifying <config-1-centos-7>...
+       Loaded tests from {:path=>".media.mmcqueen.at-at.dev.Chef.others.haproxy_fail.test.integration.config_1"} 
+
+Profile: tests from {:path=>"/media/mmcqueen/at-at/dev/Chef/others/haproxy_fail/test/integration/config_1"} (tests from {:path=>".media.mmcqueen.at-at.dev.Chef.others.haproxy_fail.test.integration.config_1"})
+Version: (not specified)
+Target:  ssh://vagrant@127.0.0.1:2200
+
+  System Package haproxy
+[38;5;41m     ✔  should be installed[0m
+  Directory /etc/haproxy
+[38;5;41m     ✔  should exist[0m
+  File /etc/haproxy/haproxy.cfg
+[38;5;41m     ✔  should exist[0m
+[38;5;41m     ✔  should be owned by "haproxy"[0m
+[38;5;41m     ✔  should be grouped into "haproxy"[0m
+[38;5;9m     ×  content should match /^global\n  user haproxy\n  group haproxy\n  log \/dev\/log local0\n  log-tag WARDEN\n  chroot \/var\/lib\/haproxy\n  daemon\n  quiet\n  stats socket \/var\/lib\/haproxy\/stats level admin\n  maxconn 256\n  pidfile \/var\/run\/haproxy.pid\n  tune.bufsize 262144\n\n\ndefaults\n  timeout connect 5000ms\n  timeout client 5000ms\n  timeout server 5000ms\n  log global\n  mode http\n  balance roundrobin\n  option httplog\n  option dontlognull\n  option redispatch\n  option tcplog\n  retries 5\n  stats uri \/haproxy-status\n\n\nfrontend http-in\n  default_backend servers\n  bind \*:80\n\nfrontend tcp-in\n  mode tcp\n  default_backend tcp-servers\n  bind \*:3307\n\nfrontend single-reqrep-reqirep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqrep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqrep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqirep\n  default_backend servers\n  bind \*:80\n  reqirep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multiport\n  default_backend servers\n  bind \*:8080\n  bind 0.0.0.0:8081\n  bind 0.0.0.0:8180\n\n\nbackend servers\n  server server1 127.0.0.1:8000 maxconn 32\n\nbackend tcp-servers\n  mode tcp\n  server server2 127.0.0.1:3306 maxconn 32$/
+     expected "global\n  user haproxy\n  group haproxy\n  log /dev/log local0\n  log-tag WARDEN\n  chroot /var/lib/...ption dontlognull\n  option redispatch\n  option tcplog\n  retries 5\n  stats uri /haproxy-status\n" to match /^global\n  user haproxy\n  group haproxy\n  log \/dev\/log local0\n  log-tag WARDEN\n  chroot \/var\/lib\/haproxy\n  daemon\n  quiet\n  stats socket \/var\/lib\/haproxy\/stats level admin\n  maxconn 256\n  pidfile \/var\/run\/haproxy.pid\n  tune.bufsize 262144\n\n\ndefaults\n  timeout connect 5000ms\n  timeout client 5000ms\n  timeout server 5000ms\n  log global\n  mode http\n  balance roundrobin\n  option httplog\n  option dontlognull\n  option redispatch\n  option tcplog\n  retries 5\n  stats uri \/haproxy-status\n\n\nfrontend http-in\n  default_backend servers\n  bind \*:80\n\nfrontend tcp-in\n  mode tcp\n  default_backend tcp-servers\n  bind \*:3307\n\nfrontend single-reqrep-reqirep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqrep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqrep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqirep\n  default_backend servers\n  bind \*:80\n  reqirep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multiport\n  default_backend servers\n  bind \*:8080\n  bind 0.0.0.0:8081\n  bind 0.0.0.0:8180\n\n\nbackend servers\n  server server1 127.0.0.1:8000 maxconn 32\n\nbackend tcp-servers\n  mode tcp\n  server server2 127.0.0.1:3306 maxconn 32$/
+     Diff:
+     @@ -1,2 +1,28 @@
+     -/^global\n  user haproxy\n  group haproxy\n  log \/dev\/log local0\n  log-tag WARDEN\n  chroot \/var\/lib\/haproxy\n  daemon\n  quiet\n  stats socket \/var\/lib\/haproxy\/stats level admin\n  maxconn 256\n  pidfile \/var\/run\/haproxy.pid\n  tune.bufsize 262144\n\n\ndefaults\n  timeout connect 5000ms\n  timeout client 5000ms\n  timeout server 5000ms\n  log global\n  mode http\n  balance roundrobin\n  option httplog\n  option dontlognull\n  option redispatch\n  option tcplog\n  retries 5\n  stats uri \/haproxy-status\n\n\nfrontend http-in\n  default_backend servers\n  bind \*:80\n\nfrontend tcp-in\n  mode tcp\n  default_backend tcp-servers\n  bind \*:3307\n\nfrontend single-reqrep-reqirep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqrep\n  default_backend servers\n  bind \*:80\n  reqrep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqrep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multi-reqirep\n  default_backend servers\n  bind \*:80\n  reqirep \^Host:\\ ftp.mydomain.com   Host:\\ ftp\n  reqirep \^Host:\\ www.mydomain.com   Host:\\ www\n\nfrontend multiport\n  default_backend servers\n  bind \*:8080\n  bind 0.0.0.0:8081\n  bind 0.0.0.0:8180\n\n\nbackend servers\n  server server1 127.0.0.1:8000 maxconn 32\n\nbackend tcp-servers\n  mode tcp\n  server server2 127.0.0.1:3306 maxconn 32$/
+     +global
+     +  user haproxy
+     +  group haproxy
+     +  log /dev/log local0
+     +  log-tag WARDEN
+     +  chroot /var/lib/haproxy
+     +  daemon
+     +  quiet
+     +  stats socket /var/lib/haproxy/stats level admin
+     +  maxconn 256
+     +  pidfile /var/run/haproxy.pid
+     +  tune.bufsize 262144
+     +
+     +
+     +defaults
+     +  timeout connect 5000ms
+     +  timeout client 5000ms
+     +  timeout server 5000ms
+     +  log global
+     +  mode http
+     +  balance roundrobin
+     +  option httplog
+     +  option dontlognull
+     +  option redispatch
+     +  option tcplog
+     +  retries 5
+     +  stats uri /haproxy-status
+[0m
+  Service haproxy
+[38;5;41m     ✔  should be running[0m
+
+Test Summary: [38;5;41m6 successful[0m, [38;5;9m1 failure[0m, 0 skipped

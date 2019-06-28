@@ -5,8 +5,8 @@ driver:
 provisioner:
   name: chef_zero
   product_name: chef
-  product_version: '13.0.113'
-  # product_version: '13'
+  # product_version: '13.0.113' # FIXME: couldn't run the test on this version should double check chef version compat
+  product_version: '13'
   # product_version: '14'
   install_strategy: once
 

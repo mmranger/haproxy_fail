@@ -1,0 +1,154 @@
+-----> Starting Kitchen (v1.23.2)
+-----> Converging <config-1-centos-7>...
+       Preparing files for transfer
+       Preparing dna.json
+       Resolving cookbook dependencies with Berkshelf 7.0.6...
+       Removing non-cookbook files before transfer
+       Preparing validation.pem
+       Preparing client.rb
+       chef installation detected
+       install_strategy set to 'once'
+       Nothing to install
+       Transferring files to <config-1-centos-7>
+       Starting Chef Client, version 13.12.14
+       resolving cookbooks for run list: ["test::config_1"]
+       Synchronizing Cookbooks:
+         - test (0.0.1)
+         - haproxy (8.1.0)
+         - build-essential (8.2.1)
+         - yum-epel (3.3.0)
+         - seven_zip (3.1.1)
+         - mingw (2.1.0)
+         - windows (6.0.0)
+       Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 14 resources
+       Recipe: test::config_1
+         * apt_update[] action periodic (up to date)
+         * haproxy_install[package] action createhttps://centos7.iuscommunity.org/ius-release.rpm
+       
+         Recipe: yum-epel::default
+           * yum_repository[epel] action create
+             * template[/etc/yum.repos.d/epel.repo] action create (up to date)
+             * execute[yum clean metadata epel] action nothing (skipped due to action :nothing)
+             * execute[yum-makecache-epel] action nothing (skipped due to action :nothing)
+             * ruby_block[package-cache-reload-epel] action nothing (skipped due to action :nothing)
+       (up to date)
+           * remote_file[/tmp/kitchen/cache/ius-release.rpm] action create (skipped due to only_if)
+           * yum_package[ius-release.rpm] action install (skipped due to only_if)
+           * yum_package[haproxy] action install (up to date)
+            (up to date)
+         * group[haproxy] action create (up to date)
+         * linux_user[haproxy] action create (up to date)
+         * directory[/etc/haproxy] action create (up to date)
+         * template[/etc/haproxy/haproxy.cfg] action nothing (skipped due to action :nothing)
+       Recipe: test::config_1
+         * haproxy_config_global[] action create (up to date)
+         * haproxy_config_defaults[defaults] action create (up to date)
+         * yum_package[breaking the law] action install
+           * No candidate version available for breaking the law
+           ================================================================================
+           Error executing action `install` on resource 'yum_package[breaking the law]'
+           ================================================================================
+           
+           Chef::Exceptions::Package
+           -------------------------
+           No candidate version available for breaking the law
+           
+           Resource Declaration:
+           ---------------------
+           # In /tmp/kitchen/cache/cookbooks/test/recipes/config_1.rb
+           
+            27: package 'breaking the law'
+            28: 
+           
+           Compiled Resource:
+           ------------------
+           # Declared in /tmp/kitchen/cache/cookbooks/test/recipes/config_1.rb:27:in `from_file'
+           
+           yum_package("breaking the law") do
+             package_name "breaking the law"
+             action [:install]
+             default_guard_interpreter :default
+             declared_type :package
+             cookbook_name "test"
+             recipe_name "config_1"
+           end
+           
+           System Info:
+           ------------
+           chef_version=13.12.14
+           platform=centos
+           platform_version=7.4.1708
+           ruby=ruby 2.4.5p335 (2018-10-18 revision 65137) [x86_64-linux]
+           program_name=chef-client worker: ppid=3994;start=13:05:49;
+           executable=/opt/chef/bin/chef-client
+           
+         * template[/etc/haproxy/haproxy.cfg] action nothing (skipped due to action :nothing)
+         * template[/etc/haproxy/haproxy.cfg] action create
+           - update content in file /etc/haproxy/haproxy.cfg from 15aa51 to 2d23c3
+           --- /etc/haproxy/haproxy.cfg	2019-06-28 13:04:09.744707883 +0000
+           +++ /etc/haproxy/.chef-haproxy20190628-3999-17ncmtb.cfg	2019-06-28 13:06:03.204392032 +0000
+           @@ -25,46 +25,4 @@
+       option tcplog
+       retries 5
+       stats uri /haproxy-status
+           -
+           -
+           -frontend http-in
+           -  default_backend servers
+           -  bind *:80
+           -
+           -frontend tcp-in
+           -  mode tcp
+           -  default_backend tcp-servers
+           -  bind *:3307
+           -
+           -frontend single-reqrep-reqirep
+           -  default_backend servers
+           -  bind *:80
+           -  reqrep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           -  reqirep ^Host:\ www.mydomain.com   Host:\ www
+           -
+           -frontend multi-reqrep
+           -  default_backend servers
+           -  bind *:80
+           -  reqrep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           -  reqrep ^Host:\ www.mydomain.com   Host:\ www
+           -
+           -frontend multi-reqirep
+           -  default_backend servers
+           -  bind *:80
+           -  reqirep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           -  reqirep ^Host:\ www.mydomain.com   Host:\ www
+           -
+           -frontend multiport
+           -  default_backend servers
+           -  bind *:8080
+           -  bind 0.0.0.0:8081
+           -  bind 0.0.0.0:8180
+           -
+           -
+           -backend servers
+           -  server server1 127.0.0.1:8000 maxconn 32
+           -
+           -backend tcp-servers
+           -  mode tcp
+           -  server server2 127.0.0.1:3306 maxconn 32
+           - restore selinux security context
+       
+       Running handlers:
+       [2019-06-28T13:06:03+00:00] ERROR: Running exception handlers
+       [2019-06-28T13:06:03+00:00] ERROR: Running exception handlers
+       Running handlers complete
+       [2019-06-28T13:06:03+00:00] ERROR: Exception handlers complete
+       [2019-06-28T13:06:03+00:00] ERROR: Exception handlers complete
+       Chef Client failed. 1 resources updated in 13 seconds
+       [2019-06-28T13:06:03+00:00] FATAL: Stacktrace dumped to /tmp/kitchen/cache/chef-stacktrace.out
+       [2019-06-28T13:06:03+00:00] FATAL: Stacktrace dumped to /tmp/kitchen/cache/chef-stacktrace.out
+       [2019-06-28T13:06:03+00:00] FATAL: Please provide the contents of the stacktrace.out file if you file a bug report
+       [2019-06-28T13:06:03+00:00] FATAL: Please provide the contents of the stacktrace.out file if you file a bug report
+       [2019-06-28T13:06:03+00:00] ERROR: yum_package[breaking the law] (test::config_1 line 27) had an error: Chef::Exceptions::Package: No candidate version available for breaking the law
+       [2019-06-28T13:06:03+00:00] ERROR: yum_package[breaking the law] (test::config_1 line 27) had an error: Chef::Exceptions::Package: No candidate version available for breaking the law
+       [2019-06-28T13:06:03+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+       [2019-06-28T13:06:03+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)

@@ -1,0 +1,162 @@
+-----> Starting Kitchen (v1.23.2)
+-----> Converging <config-1-centos-7>...
+       Preparing files for transfer
+       Preparing dna.json
+       Resolving cookbook dependencies with Berkshelf 7.0.6...
+       Removing non-cookbook files before transfer
+       Preparing validation.pem
+       Preparing client.rb
+       chef installation detected
+       install_strategy set to 'once'
+       Nothing to install
+       Transferring files to <config-1-centos-7>
+       Starting Chef Client, version 13.12.14
+       resolving cookbooks for run list: ["test::config_1"]
+       Synchronizing Cookbooks:
+         - test (0.0.1)
+         - haproxy (8.1.0)
+         - build-essential (8.2.1)
+         - yum-epel (3.3.0)
+         - seven_zip (3.1.1)
+         - mingw (2.1.0)
+         - windows (6.0.0)
+       Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 13 resources
+       Recipe: test::config_1
+         * apt_update[] action periodic (up to date)
+         * haproxy_install[package] action createhttps://centos7.iuscommunity.org/ius-release.rpm
+       
+         Recipe: yum-epel::default
+           * yum_repository[epel] action create
+             * template[/etc/yum.repos.d/epel.repo] action create (up to date)
+             * execute[yum clean metadata epel] action nothing (skipped due to action :nothing)
+             * execute[yum-makecache-epel] action nothing (skipped due to action :nothing)
+             * ruby_block[package-cache-reload-epel] action nothing (skipped due to action :nothing)
+       (up to date)
+           * remote_file[/tmp/kitchen/cache/ius-release.rpm] action create (skipped due to only_if)
+           * yum_package[ius-release.rpm] action install (skipped due to only_if)
+           * yum_package[haproxy] action install (up to date)
+            (up to date)
+         * group[haproxy] action create (up to date)
+         * linux_user[haproxy] action create (up to date)
+         * directory[/etc/haproxy] action create (up to date)
+         * template[/etc/haproxy/haproxy.cfg] action nothing (skipped due to action :nothing)
+       Recipe: test::config_1
+         * haproxy_config_global[] action create (up to date)
+         * haproxy_config_defaults[defaults] action create (up to date)
+         * haproxy_frontend[http-in] action create (up to date)
+         * haproxy_frontend[tcp-in] action create (up to date)
+         * haproxy_frontend[single-reqrep-reqirep] action create (up to date)
+         * haproxy_frontend[multi-reqrep] action create (up to date)
+         * haproxy_frontend[multi-reqirep] action create (up to date)
+         * haproxy_frontend[multiport] action create (up to date)
+         * haproxy_backend[servers] action create (up to date)
+         * haproxy_backend[tcp-servers] action create (up to date)
+         * haproxy_service[haproxy] action create (up to date)
+         * cookbook_file[/etc/default/haproxy] action create
+           - create new file /etc/default/haproxy
+           - update content in file /etc/default/haproxy from none to e3b0c4
+           (no diff)
+           - change mode from '' to '0644'
+           - change owner from '' to 'root'
+           - change group from '' to 'root'
+           - restore selinux security context
+         * systemd_unit[haproxy.service] action create
+         Recipe: <Dynamically Defined Resource>
+           * file[/etc/systemd/system/haproxy.service] action create
+             - create new file /etc/systemd/system/haproxy.service
+             - update content in file /etc/systemd/system/haproxy.service from none to d9ba42
+             --- /etc/systemd/system/haproxy.service	2019-06-28 13:04:09.536710189 +0000
+             +++ /etc/systemd/system/.chef-haproxy20190628-3132-11ie4n1.service	2019-06-28 13:04:09.504710544 +0000
+             @@ -1 +1,19 @@
+             +[Unit]
+             +Description=HAProxy Load Balancer
+             +Documentation=file:/usr/share/doc/haproxy/configuration.txt.gz
+             +After=network.target syslog.service
+             +[Service]
+             +EnvironmentFile=-/etc/default/haproxy
+             +Environment="CONFIG=/etc/haproxy/haproxy.cfg" "PIDFILE=/run/haproxy.pid"
+             +ExecStartPre=/usr/sbin/haproxy -f $CONFIG -c -q
+             +ExecStart=/usr/sbin/haproxy-systemd-wrapper -f $CONFIG -p $PIDFILE $OPTIONS
+             +ExecReload=/usr/sbin/haproxy -f $CONFIG -c -q
+             +ExecReload=/bin/kill -USR2 $MAINPID
+             +KillSignal=TERM
+             +User=root
+             +WorkingDirectory=/
+             +KillMode=mixed
+             +Restart=always
+             +[Install]
+             +WantedBy=multi-user.target
+             - change mode from '' to '0644'
+             - change owner from '' to 'root'
+             - change group from '' to 'root'
+             - restore selinux security context
+           - creating unit: haproxy.service
+         * systemd_unit[haproxy.service] action enable
+           - enabling unit: haproxy.service
+         * service[haproxy] action nothing (skipped due to action :nothing)
+         * template[/etc/haproxy/haproxy.cfg] action nothing (skipped due to action :nothing)
+         * template[/etc/haproxy/haproxy.cfg] action create
+           - update content in file /etc/haproxy/haproxy.cfg from 2d23c3 to 15aa51
+           --- /etc/haproxy/haproxy.cfg	2019-06-28 13:02:13.293054457 +0000
+           +++ /etc/haproxy/.chef-haproxy20190628-3132-1c6ovlb.cfg	2019-06-28 13:04:09.744707883 +0000
+           @@ -25,4 +25,46 @@
+       option tcplog
+       retries 5
+       stats uri /haproxy-status
+           +
+           +
+           +frontend http-in
+           +  default_backend servers
+           +  bind *:80
+           +
+           +frontend tcp-in
+           +  mode tcp
+           +  default_backend tcp-servers
+           +  bind *:3307
+           +
+           +frontend single-reqrep-reqirep
+           +  default_backend servers
+           +  bind *:80
+           +  reqrep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           +  reqirep ^Host:\ www.mydomain.com   Host:\ www
+           +
+           +frontend multi-reqrep
+           +  default_backend servers
+           +  bind *:80
+           +  reqrep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           +  reqrep ^Host:\ www.mydomain.com   Host:\ www
+           +
+           +frontend multi-reqirep
+           +  default_backend servers
+           +  bind *:80
+           +  reqirep ^Host:\ ftp.mydomain.com   Host:\ ftp
+           +  reqirep ^Host:\ www.mydomain.com   Host:\ www
+           +
+           +frontend multiport
+           +  default_backend servers
+           +  bind *:8080
+           +  bind 0.0.0.0:8081
+           +  bind 0.0.0.0:8180
+           +
+           +
+           +backend servers
+           +  server server1 127.0.0.1:8000 maxconn 32
+           +
+           +backend tcp-servers
+           +  mode tcp
+           +  server server2 127.0.0.1:3306 maxconn 32
+           - restore selinux security context
+         * service[haproxy] action enable (up to date)
+         * service[haproxy] action start
+           - start service service[haproxy]
+         * service[haproxy] action restart
+           - restart service service[haproxy]
+       
+       Running handlers:
+       Running handlers complete
+       Chef Client finished, 7/35 resources updated in 04 seconds
+       Downloading files from <config-1-centos-7>
+       Finished converging <config-1-centos-7> (0m11.15s).
+-----> Kitchen is finished. (0m13.64s)
